@@ -1,17 +1,17 @@
 #! /usr/bin/python
-#Copyright 2014 Jeremy Carroll
+# Copyright 2014 Jeremy Carroll
 #
-#Licensed under the Apache License, Version 2.0 (the "License");
-#you may not use this file except in compliance with the License.
-#You may obtain a copy of the License at
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-#    http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
-#Unless required by applicable law or agreed to in writing, software
-#distributed under the License is distributed on an "AS IS" BASIS,
-#WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#See the License for the specific language governing permissions and
-#limitations under the License.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 
 import collectd
@@ -34,29 +34,29 @@ STATS_CUR = {}
 
 # DICT: ElasticSearch 1.0.0
 STATS_ES1 = {
-    ## STORE
+    # STORE
     'indices.store.throttle-time': Stat("counter", "nodes.%s.indices.store.throttle_time_in_millis"),
 
-    ##SEARCH
+    # SEARCH
     'indices.search.open-contexts': Stat("gauge", "nodes.%s.indices.search.open_contexts"),
 
-    ##CACHE
+    # CACHE
     'indices.cache.field.eviction': Stat("counter", "nodes.%s.indices.fielddata.evictions"),
     'indices.cache.field.size': Stat("bytes", "nodes.%s.indices.fielddata.memory_size_in_bytes"),
     'indices.cache.filter.evictions': Stat("counter", "nodes.%s.indices.filter_cache.evictions"),
     'indices.cache.filter.size': Stat("bytes", "nodes.%s.indices.filter_cache.memory_size_in_bytes"),
 
-    ##GC
+    # GC
     'jvm.gc.time': Stat("counter", "nodes.%s.jvm.gc.collectors.young.collection_time_in_millis"),
     'jvm.gc.count': Stat("counter", "nodes.%s.jvm.gc.collectors.young.collection_count"),
     'jvm.gc.old-time': Stat("counter", "nodes.%s.jvm.gc.collectors.old.collection_time_in_millis"),
     'jvm.gc.old-count': Stat("counter", "nodes.%s.jvm.gc.collectors.old.collection_count"),
 
-    ## FLUSH
+    # FLUSH
     'indices.flush.total': Stat("counter", "nodes.%s.indices.flush.total"),
     'indices.flush.time': Stat("counter", "nodes.%s.indices.flush.total_time_in_millis"),
 
-    ## MERGES
+    # # MERGES
     'indices.merges.current': Stat("gauge", "nodes.%s.indices.merges.current"),
     'indices.merges.current-docs': Stat("gauge", "nodes.%s.indices.merges.current_docs"),
     'indices.merges.current-size': Stat("bytes", "nodes.%s.indices.merges.current_size_in_bytes"),
@@ -65,7 +65,7 @@ STATS_ES1 = {
     'indices.merges.total-size': Stat("bytes", "nodes.%s.indices.merges.total_size_in_bytes"),
     'indices.merges.time': Stat("counter", "nodes.%s.indices.merges.total_time_in_millis"),
 
-    ## REFRESH
+    # REFRESH
     'indices.refresh.total': Stat("counter", "nodes.%s.indices.refresh.total"),
     'indices.refresh.time': Stat("counter", "nodes.%s.indices.refresh.total_time_in_millis"),
 }
@@ -73,25 +73,25 @@ STATS_ES1 = {
 # DICT: ElasticSearch 0.9.x
 STATS_ES09 = {
 
-    ##GC
+    # GC
     'jvm.gc.time': Stat("counter", "nodes.%s.jvm.gc.collection_time_in_millis"),
     'jvm.gc.count': Stat("counter", "nodes.%s.jvm.gc.collection_count"),
 
-    ##CPU
+    # CPU
     'process.cpu.percent': Stat("gauge", "nodes.%s.process.cpu.percent"),
 }
 
 # DICT: Common stuff
 STATS = {
 
-    ## DOCS
+    # DOCS
     'indices.docs.count': Stat("gauge", "nodes.%s.indices.docs.count"),
     'indices.docs.deleted': Stat("counter", "nodes.%s.indices.docs.deleted"),
 
-    ## STORE
+    # STORE
     'indices.store.size': Stat("bytes", "nodes.%s.indices.store.size_in_bytes"),
 
-    ## INDEXING
+    # INDEXING
     'indices.indexing.index-total': Stat("counter", "nodes.%s.indices.indexing.index_total"),
     'indices.indexing.index-time': Stat("counter", "nodes.%s.indices.indexing.index_time_in_millis"),
     'indices.indexing.delete-total': Stat("counter", "nodes.%s.indices.indexing.delete_total"),
@@ -99,7 +99,7 @@ STATS = {
     'indices.indexing.index-current': Stat("gauge", "nodes.%s.indices.indexing.index_current"),
     'indices.indexing.delete-current': Stat("gauge", "nodes.%s.indices.indexing.delete_current"),
 
-    ## GET
+    # GET
     'indices.get.total': Stat("counter", "nodes.%s.indices.get.total"),
     'indices.get.time': Stat("counter", "nodes.%s.indices.get.time_in_millis"),
     'indices.get.exists-total': Stat("counter", "nodes.%s.indices.get.exists_total"),
@@ -108,7 +108,7 @@ STATS = {
     'indices.get.missing-time': Stat("counter", "nodes.%s.indices.get.missing_time_in_millis"),
     'indices.get.current': Stat("gauge", "nodes.%s.indices.get.current"),
 
-    ## SEARCH
+    # SEARCH
     'indices.search.query-current': Stat("gauge", "nodes.%s.indices.search.query_current"),
     'indices.search.query-total': Stat("counter", "nodes.%s.indices.search.query_total"),
     'indices.search.query-time': Stat("counter", "nodes.%s.indices.search.query_time_in_millis"),
@@ -117,14 +117,14 @@ STATS = {
     'indices.search.fetch-time': Stat("counter", "nodes.%s.indices.search.fetch_time_in_millis"),
 
     # JVM METRICS #
-    ## MEM
+    # MEM
     'jvm.mem.heap-committed': Stat("bytes", "nodes.%s.jvm.mem.heap_committed_in_bytes"),
     'jvm.mem.heap-used': Stat("bytes", "nodes.%s.jvm.mem.heap_used_in_bytes"),
     'jvm.mem.heap-used-percent': Stat("percent", "nodes.%s.jvm.mem.heap_used_percent"),
     'jvm.mem.non-heap-committed': Stat("bytes", "nodes.%s.jvm.mem.non_heap_committed_in_bytes"),
     'jvm.mem.non-heap-used': Stat("bytes", "nodes.%s.jvm.mem.non_heap_used_in_bytes"),
 
-    ## THREADS
+    # THREADS
     'jvm.threads.count': Stat("gauge", "nodes.%s.jvm.threads.count"),
     'jvm.threads.peak': Stat("gauge", "nodes.%s.jvm.threads.peak_count"),
 
@@ -184,12 +184,12 @@ def configure_callback(conf):
 
     # add info on thread pools
     for pool in ['generic', 'index', 'get', 'snapshot', 'merge', 'optimize', 'bulk', 'warmer', 'flush', 'search', 'refresh']:
-      for attr in ['threads', 'queue', 'active', 'largest']:
-        path = 'thread_pool.{0}.{1}'.format(pool, attr)
-        STATS_CUR[path] = Stat("gauge", 'nodes.%s.{0}'.format(path))
-      for attr in ['completed', 'rejected']:
-        path = 'thread_pool.{0}.{1}'.format(pool, attr)
-        STATS_CUR[path] = Stat("counter", 'nodes.%s.{0}'.format(path))
+        for attr in ['threads', 'queue', 'active', 'largest']:
+            path = 'thread_pool.{0}.{1}'.format(pool, attr)
+            STATS_CUR[path] = Stat("gauge", 'nodes.%s.{0}'.format(path))
+        for attr in ['completed', 'rejected']:
+            path = 'thread_pool.{0}.{1}'.format(pool, attr)
+            STATS_CUR[path] = Stat("counter", 'nodes.%s.{0}'.format(path))
 
     log_verbose('Configured with version=%s, host=%s, port=%s, url=%s' % (ES_VERSION, ES_HOST, ES_PORT, ES_URL))
 
@@ -234,7 +234,7 @@ def dispatch_stat(result, name, key):
 
 def read_callback():
     log_verbose('Read callback called')
-    stats = fetch_stats()
+    fetch_stats()
 
 
 def dig_it_up(obj, path):
